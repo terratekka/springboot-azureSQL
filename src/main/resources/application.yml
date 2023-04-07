@@ -1,6 +1,9 @@
+server:
+  port: 8080
+
 spring:
   datasource:
-    url: jdbc:sqlserver://javatechie.database.windows.net:1433;database=javatechiedb;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: jdbc:sqlserver://iouritrial.database.windows.net:1433;database=javatechiedb;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     username: javatechie
     password: password@123
   jpa:
@@ -9,7 +12,22 @@ spring:
       ddl-auto: update
       dialect : org.hibernate.dialect.SQLServer2012Dialect
 
-server:
-  port: 9191
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:demoDb;DB_CLOSE_DELAY=-1;MODE=MSSQLServer;INIT=CREATE SCHEMA IF NOT EXISTS DBO
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
 
-
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        default_catalog: demoDb
+        default_schema: dbo
+      javax.persistence.schema-generation.database.action: none
